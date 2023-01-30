@@ -57,7 +57,8 @@ async function getPayment(userId:number,ticketId:number) {
     }
 
     const payment = await paymentRepository.findPaymentByTicketId(ticketId);
-
+    const pay = await ticketsRepository.payTicket(payment.ticketId);
+    
     return {
         status:true,
         data:payment
