@@ -15,6 +15,17 @@ async function findTicketTypeById(TicketTypeId:number):Promise<TicketType> {
   );
 }
 
+async function payTicket(ticketId:number) {
+  return prisma.ticket.update({
+    data:{
+      status:"PAID"
+    },
+    where:{
+      id:ticketId
+    }
+  })
+}
+
 async function findTicketById(ticketId:number):Promise<(Ticket & { TicketType: TicketType; })> {
   return prisma.ticket.findUnique({
     where:{
@@ -54,7 +65,8 @@ const ticketsRepository = {
   findTicketTypeById,
   insertTicket,
   findTicketById,
-  findTicketByUser
+  findTicketByUser,
+  payTicket
 };
 
 export default ticketsRepository;
