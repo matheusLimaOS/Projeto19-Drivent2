@@ -1,4 +1,5 @@
 import { prisma } from "@/config";
+import { TicketWithTicketType } from "@/protocols";
 import { Prisma, Ticket, TicketType } from "@prisma/client";
 
 async function findTicketsTypes():Promise<TicketType[]> {
@@ -14,7 +15,7 @@ async function findTicketTypeById(TicketTypeId:number):Promise<TicketType> {
   );
 }
 
-async function findTicketById(ticketId:number):Promise<Ticket> {
+async function findTicketById(ticketId:number):Promise<(Ticket & { TicketType: TicketType; })> {
   return prisma.ticket.findUnique({
     where:{
       id:ticketId
@@ -26,7 +27,7 @@ async function findTicketById(ticketId:number):Promise<Ticket> {
   );
 }
 
-async function findTicketByUser(enrollmentId:number):Promise<Ticket[]> {
+async function findTicketByUser(enrollmentId:number):Promise<(Ticket & { TicketType: TicketType; })[]> {
   return prisma.ticket.findMany({
     where:{
       enrollmentId:enrollmentId
